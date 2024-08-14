@@ -1,113 +1,391 @@
-import Image from "next/image";
+"use client";
+import "./globals.css"; // Ensure Tailwind is applied
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import ShimmerButton from "@/components/magicui/shimmer-button";
+import Meteors from "@/components/magicui/meteors"; // Import Meteors
+import TypingAnimation from "@/components/magicui/typing-animation"; // Import TypingAnimation
+import { cn } from "@/lib/utils";
+import DotPattern from "@/components/magicui/dot-pattern";
+import { AnimatedList } from "@/components/magicui/animated-list";
+import {
+  EyeClosedIcon,
+  RocketIcon,
+  LockClosedIcon,
+  MagicWandIcon,
+  ReloadIcon
+} from "@radix-ui/react-icons";
+import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
+import { BorderBeam } from "@/components/magicui/border-beam";
+import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
+import Marquee from "@/components/magicui/marquee";
+import { FaChrome } from "react-icons/fa";
 
-export default function Home() {
+
+
+const features = [
+  {
+    Icon: LockClosedIcon,
+    name: "Secure Local Storage",
+    description: "Securely store all form data locally, ensuring privacy.",
+    background: <img src="/local.png" className="absolute -right-10 -top-50 opacity-60" />,
+    className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3 bg-[#8c1eff] bg-opacity-100 backdrop-blur-sm shadow-lg shadow-[#3b0003]/20 border border-[#3b0003]/10 transition-all duration-300 hover:shadow-[#3b0003]/40 text-white",
+  },
+  {
+    Icon: RocketIcon,
+    name: "Auto Save",
+    description: "Enable Auto Save and let every field be captured in real-time.",
+    background: <img src="/icon.png" className="absolute -right-20 -top-20 opacity-60" />,
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3 bg-[#ffd319] bg-opacity-100 backdrop-blur-sm shadow-lg shadow-[#3b0003]/20 border border-[#3b0003]/10 transition-all duration-300 hover:shadow-[#3b0003]/40 text-white",
+  },
+  {
+    Icon: EyeClosedIcon,
+    name: "Smart Data Exclusion",
+    description: "Excludes passwords and sensitive information from being stored.",
+    background: <img src="/pass.png" className="absolute right-0 bottom-20 opacity-60" />,
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4 bg-[#8c1eff] bg-opacity-100 backdrop-blur-sm shadow-lg shadow-[#3b0003]/20 border border-[#3b0003]/10 transition-all duration-300 hover:shadow-[#3b0003]/40 text-white",
+  },
+  {
+    Icon: MagicWandIcon,
+    name: "Intuitive & Effortless",
+    description: "Start saving form data automatically with just a click.",
+    background: <img src="/easyy.png" className="absolute -right-10 bottom-5 opacity-60" />,
+    className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2 bg-[#8c1eff] bg-opacity-100 backdrop-blur-sm shadow-lg shadow-[#3b0003]/20 border border-[#3b0003]/10 transition-all duration-300 hover:shadow-[#3b0003]/40 text-white",
+  },
+  {
+    Icon: ReloadIcon,
+    name: "Restore Data",
+    description: "Restore your progress with a single click.",
+    background: <img src="/restore.png" className="absolute -right-20 -top-20 opacity-60" />,
+    className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4 bg-[#ffd319] bg-opacity-100 backdrop-blur-sm shadow-lg shadow-[#3b0003]/20 border border-[#3b0003]/10 transition-all duration-300 hover:shadow-[#3b0003]/40 text-white",
+  },
+];
+
+// BentoDemo Component
+export function BentoDemo() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <BentoGrid className="lg:grid-rows-3">
+      {features.map((feature) => (
+        <BentoCard key={feature.name} {...feature} />
+      ))}
+    </BentoGrid>
+  );
+}
+
+const notifications = [
+  {
+    name: "Auto Save Started",
+    description: "FormSaver",
+    time: "2m ago",
+    icon: "✅",
+    color: "#00C9A7",
+  },
+  {
+    name: "Auto Save Stopped",
+    description: "FormSaver",
+    time: "1m ago",
+    icon: "⛔",
+    color: "#FFB800",
+  },
+  {
+    name: "Data Restored",
+    description: "FormSaver",
+    time: "just now",
+    icon: "🔄",
+    color: "#FF3D71",
+  },
+];
+
+// Repeat notifications for demo purposes
+const repeatedNotifications = Array.from({ length: 10 }, () => notifications).flat();
+
+// Notification component
+const Notification = ({ name, description, icon, color, time }) => {
+  return (
+    <figure
+      className={cn(
+        "relative mx-auto min-h-fit w-full max-w-[400px] cursor-pointer overflow-hidden rounded-2xl p-4",
+        "transition-all duration-200 ease-in-out hover:scale-[103%]",
+        "bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
+        "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
+      )}
+    >
+      <div className="flex flex-row items-center gap-3">
+        <div
+          className="flex size-10 items-center justify-center rounded-2xl"
+          style={{
+            backgroundColor: color,
+          }}
+        >
+          <span className="text-lg">{icon}</span>
+        </div>
+        <div className="flex flex-col overflow-hidden">
+          <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white ">
+            <span className="text-sm sm:text-lg">{name}</span>
+            <span className="mx-1">·</span>
+            <span className="text-xs text-gray-500">{time}</span>
+          </figcaption>
+          <p className="text-sm font-normal dark:text-white/60">
+            {description}
+          </p>
         </div>
       </div>
+    </figure>
+  );
+};
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+// AnimatedListDemo component
+export function AnimatedListDemo({ className }) {
+  return (
+    <div
+      className={cn(
+        "relative flex h-[500px] w-full flex-col p-6 overflow-hidden rounded-lg border bg-background md:shadow-xl",
+        className,
+      )}
+    >
+      <AnimatedList>
+        {repeatedNotifications.map((item, idx) => (
+          <Notification {...item} key={idx} />
+        ))}
+      </AnimatedList>
+    </div>
+  );
+}
+
+// HomePage component
+export default function HomePage() {
+  return (
+    <div
+      className="relative min-h-screen w-full overflow-hidden"
+      style={{
+        background: 'linear-gradient(to bottom, #000000, #0a0044 4%, #222153 36%, #0a0044 79%, #000000 99%)',
+      }}
+    >
+      <MeteorDemo /> {/* Add MeteorDemo here */}
+      <Header />
+      <Section1 />
+      <Divider />
+      <Section2 />
+      <Divider />
+      <Section3 />
+      <Footer />
+    </div>
+  );
+}
+
+// Divider component
+function Divider() {
+  return (
+    <div className="relative w-3/4 mx-auto my-4">
+      <div className="border-t border-gray-700"></div>
+      <BorderBeam size={250} duration={12} delay={9} />
+    </div>
+  );
+}
+
+// MeteorDemo component
+function MeteorDemo() {
+  return (
+    <div className="absolute inset-5 flex items-center justify-center overflow-hidden">
+      <Meteors number={30} />
+    </div>
+  );
+}
+
+// Section1 component
+function Section1() {
+  return (
+    <div className="flex flex-col justify-center items-center text-center min-h-[80vh] pt-20 pb-0">
+      <div className="w-4/5 max-w-screen mx-auto flex flex-col lg:flex-row items-center lg:items-start justify-between">
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full lg:w-2/3">
+          <div className="relative mb-6"> {/* Wrapper for text and button */}
+            <TypingAnimation
+              duration={100}
+              className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-8xl font-serif font-medium leading-ttight tracking-tighter text-transparent"
+              text="Save Your Form Progress, Restore Anytime."
+            />
+          </div>
+          <div className="flex justify-center w-full mt-6"> {/* Separate div to ensure button is below fully expanded text */}
+            <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer">
+              <ShimmerButton
+                background="#0a0033"
+                className="px-12 py-4 text-lg font-medium flex items-center justify-center"
+              >
+                <FaChrome className="text-white mr-2" />
+                <span className="whitespace-pre-wrap text-center text-sm font-medium font-mono leading-none tracking-tight text-white lg:text-lg">
+                  Get Started
+                </span>
+              </ShimmerButton>
+            </a>
+          </div>
+        </div>
+        <div className="relative lg:ml-10 mt-10 lg:mt-0 w-full lg:w-1/3 max-w-sm flex justify-center lg:justify-start">
+          <div className="absolute inset-0 bg-gray-800 rounded-xl opacity-0 z-0"></div>
+          <AnimatedListDemo className="relative z-10 p-3 border-transparent bg-transparent rounded-xl max-h-[15rem] overflow-y-auto" />
+        </div>
       </div>
+    </div>
+  );
+}
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
+// Section2 component
+function Section2() {
+  return (
+    <div
+      id="section2"
+      className="min-h-screen relative flex flex-col items-center justify-center overflow-hidden"
+    >
+      <DotPatternDemo />
+      <div className="relative z-10 text-center w-full max-w-6xl"> 
+        <h2
+          className="text-7xl font-serif font-medium mb-12 bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-transparent leading-ttight tracking-tighter"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+          Features
+        </h2>
+        <div className="w-full mx-auto"> 
+          <BentoDemo />
+        </div>
       </div>
-    </main>
+    </div>
+  );
+}
+
+// Section3 component
+function Section3() {
+  return (
+    <div
+      id="section3"
+      className="min-h-screen relative flex flex-col items-center justify-center overflow-hidden mb-24"
+    >
+      <DotPatternDemo />
+      <div className="relative z-10 text-center w-full max-w-6xl">
+        {/* Header with gradient text */}
+        <h2
+          className="text-7xl font-serif font-medium mb-12 bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-transparent leading-tight tracking-tighter"
+        >
+          Use Cases
+        </h2>
+
+        {/* Neon Gradient Card with sec3.png */}
+        <NeonGradientCard
+          className="inline-block items-center justify-center text-center"
+          neonColors={{ firstColor: "#ffffff", secondColor: "#ffff00" }}
+          borderSize={6}
+          borderRadius={40}
+        >
+          <img
+            src="sec3.png"
+            alt="Section 3 Content"
+            className="block max-w-full h-auto rounded-xl"
+          />
+        </NeonGradientCard>
+
+        {/* Marquee Component */}
+        <div className="mt-12">
+          <MarqueeDemo />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MarqueeDemo() {
+  const reviews = [
+    {
+      name: "Alice Johnson",
+      username: "@alicej",
+      body: "Saving my progress on lengthy legal documents has never been easier. I can pause and resume with confidence!",
+      img: "https://avatar.vercel.sh/alice",
+    },
+    {
+      name: "Bob Smith",
+      username: "@bobsmith",
+      body: "Filling out complex financial forms is now stress-free. I can save my progress as I gather information.",
+      img: "https://avatar.vercel.sh/bob",
+    },
+    {
+      name: "Catherine Lee",
+      username: "@catherinelee",
+      body: "As a student, managing research submissions is a breeze with automatic saving features. No more lost work!",
+      img: "https://avatar.vercel.sh/catherine",
+    },
+    {
+      name: "David King",
+      username: "@davidking",
+      body: "Managing multiple drafts has never been simpler. I can switch between them effortlessly and never lose my ideas.",
+      img: "https://avatar.vercel.sh/david",
+    },
+    {
+      name: "Eva Martinez",
+      username: "@evam",
+      body: "Consistency across multi-step processes is now guaranteed. I can revisit sections without losing any data.",
+      img: "https://avatar.vercel.sh/eva",
+    },
+    {
+      name: "Frank Wilson",
+      username: "@frankw",
+      body: "I can fill out sensitive forms knowing my data is secure. The smart exclusion feature keeps my information safe.",
+      img: "https://avatar.vercel.sh/frank",
+    },
+  ];
+
+  const firstRow = reviews.slice(0, reviews.length / 2);
+  const secondRow = reviews.slice(reviews.length / 2);
+
+  const ReviewCard = ({ img, name, username, body }) => {
+    return (
+      <figure
+        className={cn(
+          "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
+          // light styles
+          "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
+          // dark styles
+          "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
+        )}
+      >
+        <div className="flex flex-row items-center gap-2">
+          <img className="rounded-full" width="32" height="32" alt="" src={img} />
+          <div className="flex flex-col">
+            <figcaption className="text-sm font-medium dark:text-white">
+              {name}
+            </figcaption>
+            <p className="text-xs font-medium dark:text-white/40">{username}</p>
+          </div>
+        </div>
+        <blockquote className="mt-2 text-sm dark:text-white/80">{body}</blockquote>
+      </figure>
+    );
+  };
+
+  return (
+    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
+      <Marquee pauseOnHover className="[--duration:20s]">
+        {firstRow.map((review, index) => (
+          <ReviewCard key={index} {...review} />
+        ))}
+      </Marquee>
+      <Marquee reverse pauseOnHover className="[--duration:20s]">
+        {secondRow.map((review, index) => (
+          <ReviewCard key={index} {...review} />
+        ))}
+      </Marquee>
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
+    </div>
+  );
+}
+
+
+// DotPatternDemo component
+function DotPatternDemo() {
+  return (
+    <div className="absolute inset-0 z-[5]">
+      <DotPattern
+        className={cn(
+          "h-full w-full",
+          "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
+        )}
+      />
+    </div>
   );
 }
