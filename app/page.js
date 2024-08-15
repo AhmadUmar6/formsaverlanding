@@ -20,7 +20,7 @@ import { BorderBeam } from "@/components/magicui/border-beam";
 import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
 import Marquee from "@/components/magicui/marquee";
 import { FaChrome } from "react-icons/fa";
-
+import { motion } from 'framer-motion';
 
 
 const features = [
@@ -193,19 +193,70 @@ function MeteorDemo() {
 }
 
 // Section1 component
+const OrbitingBrowsers = () => {
+  return (
+    <div className="relative w-48 h-48">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-lg font-mono text-white">Available on:</span>
+      </div>
+      {['chrome.png', 'safari.png'].map((browser, index) => (
+        <motion.div
+          key={browser}
+          className="absolute w-12 h-12"
+          initial={{ rotate: index * 180 }}
+          animate={{
+            rotate: [index * 180, index * 180 + 360],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          style={{
+            top: '50%',
+            left: '50%',
+            x: '-50%',
+            y: '-50%',
+          }}
+        >
+          <motion.div
+            style={{
+              width: '150px',
+              height: '150px',
+              borderRadius: '50%',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <img src={browser} alt={browser.split('.')[0]} className="w-20 h-20 object-contain" />
+          </motion.div>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
 function Section1() {
   return (
-    <div className="flex flex-col justify-center items-center text-center min-h-[80vh] pt-20 pb-0">
-      <div className="w-4/5 max-w-screen mx-auto flex flex-col lg:flex-row items-center lg:items-start justify-between">
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full lg:w-2/3">
-          <div className="relative mb-6"> {/* Wrapper for text and button */}
+    <div className="flex flex-col justify-center items-center text-center min-h-[60vh] mt-40">
+      <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between px-4 space-y-10 lg:space-y-0 lg:space-x-4">
+        {/* Left Section - Orbiting Browsers */}
+        <div className="w-full lg:w-1/6 flex justify-center lg:justify-start">
+          <OrbitingBrowsers />
+        </div>
+
+        {/* Center Section - Main Text and Button */}
+        <div className="w-full lg:w-2/4 flex flex-col items-center text-center">
+          <div className="relative mb-6">
             <TypingAnimation
               duration={100}
-              className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-8xl font-serif font-medium leading-ttight tracking-tighter text-transparent"
+              className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-6xl lg:text-7xl font-serif font-medium leading-tight tracking-tighter text-transparent"
               text="Save Your Form Progress, Restore Anytime."
             />
           </div>
-          <div className="flex justify-center w-full mt-6"> {/* Separate div to ensure button is below fully expanded text */}
+          <div className="flex justify-center w-full mt-6">
             <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer">
               <ShimmerButton
                 background="#0a0033"
@@ -219,9 +270,13 @@ function Section1() {
             </a>
           </div>
         </div>
-        <div className="relative lg:ml-10 mt-10 lg:mt-0 w-full lg:w-1/3 max-w-sm flex justify-center lg:justify-start">
-          <div className="absolute inset-0 bg-gray-800 rounded-xl opacity-0 z-0"></div>
-          <AnimatedListDemo className="relative z-10 p-3 border-transparent bg-transparent rounded-xl max-h-[15rem] overflow-y-auto" />
+
+        {/* Right Section - Animated List Demo */}
+        <div className="w-full lg:w-1/4 flex justify-center lg:justify-end">
+          <div className="relative w-full max-w-sm">
+            <div className="absolute inset-0 bg-gray-800 rounded-xl opacity-20"></div>
+            <AnimatedListDemo className="relative z-10 p-3 border-transparent bg-transparent rounded-xl max-h-[20rem] overflow-y-auto" />
+          </div>
         </div>
       </div>
     </div>
