@@ -158,7 +158,7 @@ export default function HomePage() {
     <div
       className="relative min-h-screen w-full overflow-hidden"
       style={{
-        background: 'linear-gradient(to bottom, #000000, #0a0044 4%, #222153 36%, #0a0044 79%, #000000 99%)',
+        background: 'linear-gradient(to bottom, #000000, #0a0066 7%, #222153 20%, #0a0044 99%)',
       }}
     >
       <MeteorDemo /> {/* Add MeteorDemo here */}
@@ -186,11 +186,12 @@ function Divider() {
 // MeteorDemo component
 function MeteorDemo() {
   return (
-    <div className="absolute inset-5 flex items-center justify-center overflow-hidden">
-      <Meteors number={30} />
+    <div className="absolute inset-5 flex items-center justify-center overflow-hidden" style={{ left: '-100px' }}>
+      <Meteors number={20} />
     </div>
   );
 }
+
 
 // Section1 component
 const OrbitingBrowsers = () => {
@@ -240,7 +241,7 @@ const OrbitingBrowsers = () => {
 
 function Section1() {
   return (
-    <div className="flex flex-col justify-center items-center text-center min-h-[60vh] mt-40">
+    <div className="flex flex-col justify-center items-center text-center min-h-[65vh] mt-40">
       <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between px-4 space-y-10 lg:space-y-0 lg:space-x-4">
         {/* Left Section - Orbiting Browsers */}
         <div className="w-full lg:w-1/6 flex justify-center lg:justify-start">
